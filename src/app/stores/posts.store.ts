@@ -14,6 +14,7 @@ export class PostsStore extends Store<Post[]> {
 
     init() {
         if (this.getAll()) {
+            console.log('cached in getAll()');
             return;
         }
 

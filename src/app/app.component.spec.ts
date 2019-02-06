@@ -17,16 +17,16 @@ describe('AppComponent', () => {
         expect(app).toBeTruthy();
     });
 
-    it(`should have as title 'ng-rxjs-state-management-demo'`, () => {
+    it(`should have as title 'State management demo in RxJS'`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
-        expect(app.title).toEqual('ng-rxjs-state-management-demo');
+        expect(app.title).toEqual('State management demo in RxJS');
     });
 
     it('should render title in a h1 tag', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('Welcome to ng-rxjs-state-management-demo!');
+        expect(compiled.querySelector('h1').textContent).toContain('Welcome to State management demo in RxJS!');
     });
 });
