@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PostListComponent } from './post/post-list.component';
+import { TodoListComponent } from './todo/todo-list.component';
 
 @NgModule({
-    declarations: [AppComponent, PostListComponent],
+    declarations: [AppComponent, PostListComponent, TodoListComponent],
     imports: [BrowserModule, HttpClientModule, AppRoutingModule],
     providers: [],
     bootstrap: [AppComponent],

@@ -11,7 +11,9 @@ const URL = 'https://jsonplaceholder.typicode.com/posts';
 export class PostsService {
     constructor(private http: HttpClient) {}
 
-    get$ = (): Observable<Post[]> => this.http.get<Post[]>(URL);
+    getAll$ = (): Observable<Post[]> => this.http.get<Post[]>(URL);
+
+    get$ = (id: number): Observable<Post[]> => this.http.get<Post[]>(`${URL}/${id}`);
 
     post$ = (post: Post): Observable<Post> => this.http.post<Post>(URL, { post });
 

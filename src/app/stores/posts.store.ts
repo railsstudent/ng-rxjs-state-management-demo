@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { Post } from '../models/post.model';
-import { PostsService } from '../services/posts.service';
+import { Post } from '../models/';
+import { PostsService } from '../services/';
 import { Store } from './store';
 
 @Injectable({
@@ -19,11 +19,8 @@ export class PostsStore extends Store<Post[]> {
         }
 
         this.postsService
-            .get$()
-            .pipe(
-                tap(posts => console.log('posts', posts)),
-                tap(posts => this.store(posts)),
-            )
+            .getAll$()
+            .pipe(tap(posts => this.store(posts)))
             .subscribe();
     }
 }
