@@ -30,12 +30,9 @@ export class TodosStore extends Store<Todo[]> {
 
     get$(id: number): Observable<Todo[]> {
         if (id) {
-            return this.todosService.getAll$().pipe(
-                map(todos => todos.filter(t => t.id === id)),
-                tap(todos => this.store(todos)),
-            );
+            return this.getAll$().pipe(map(todos => todos.filter(t => t.id === id)));
         }
-        return this.todosService.getAll$().pipe(tap(todos => this.store(todos)));
+        return this.getAll$();
     }
 
     setSearch$(id: number | undefined) {

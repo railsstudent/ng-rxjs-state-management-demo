@@ -12,9 +12,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
                 display: block;
             }
 
-            todo-search {
+            todo-search,
+            todo-list {
                 margin-top: 1rem;
-                margin-bottom: 1rem;
             }
         `,
     ],

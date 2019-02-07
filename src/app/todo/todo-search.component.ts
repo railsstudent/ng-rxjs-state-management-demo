@@ -1,18 +1,28 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { map, tap } from 'rxjs/operators';
 import { TodosStore } from '../stores';
 
 @Component({
     selector: 'todo-search',
     template: `
-        <div class="container">
+        <form class="container" [formGroup]="form" novalidate>
             <label class="label">
                 Todo Id:
             </label>
             <div class="input-container">
-                <input type="text" id="todoInput" placeholder="Search by Todo Id" (change)="change($event.target)" />
+                <input
+                    type="text"
+                    id="todoInput"
+                    placeholder="Search by Todo Id"
+                    formControlName="input"
+                    [ngClass]="{
+                        'error-border': showError
+                    }"
+                />
                 <p *ngIf="showError" class="error">Todo id between 1 and 200 is expected.</p>
             </div>
-        </div>
+        </form>
     `,
     styles: [
         `
@@ -44,29 +54,54 @@ import { TodosStore } from '../stores';
             .error {
                 color: red;
             }
+
+            .error-border {
+                border: 1px solid red;
+            }
         `,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoSearchComponent {
+export class TodoSearchComponent implements OnInit {
     showError = false;
 
-    constructor(private todosStore: TodosStore) {}
+    form: FormGroup;
 
-    change({ value }) {
-        this.showError = false;
-        console.log('value', value);
+    constructor(private fb: FormBuilder, private todosStore: TodosStore) {}
+
+    private isValidId(id: number) {
+        return !Number.isNaN(id) && (id >= 1 && id <= 200);
+    }
+
+    private parseTodoId(value: string) {
+        const reg = new RegExp('^[0-9]+$');
+
         if (value === '') {
-            this.todosStore.setSearch$(undefined);
-            return;
+            return undefined;
+        } else if (reg.test(value)) {
+            return parseInt(value, 10);
         }
-        const id = parseInt(value, 10);
-        if (Number.isNaN(id)) {
-            this.showError = true;
-        } else if (id < 1 || id > 200) {
-            this.showError = true;
-        } else {
-            this.todosStore.setSearch$(id);
-        }
+        return Number.NaN;
+    }
+
+    ngOnInit() {
+        this.form = this.fb.group({
+            input: ['', { updateOn: 'blur' }],
+        });
+
+        const input = this.form.get('input') as AbstractControl;
+        input.valueChanges
+            .pipe(
+                tap(() => (this.showError = false)),
+                map(this.parseTodoId),
+                tap(value => {
+                    if (typeof value === 'undefined' || this.isValidId(value)) {
+                        this.todosStore.setSearch$(value);
+                    } else {
+                        this.showError = true;
+                    }
+                }),
+            )
+            .subscribe(v => console.log(v));
     }
 }
