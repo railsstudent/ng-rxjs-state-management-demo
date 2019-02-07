@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosStore } from '../stores';
 
@@ -53,8 +54,6 @@ export class TodoListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.todos$ = this.todosStore.getAll$();
-
-        // this.todosStore.search$.subscribe();
+        this.todos$ = this.todosStore.search$.pipe(switchMap(id => this.todosStore.get$(id)));
     }
 }

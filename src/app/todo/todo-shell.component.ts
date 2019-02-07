@@ -10,7 +10,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
         `
             :host {
                 display: block;
-                border: 1px solid red;
             }
 
             todo-search {

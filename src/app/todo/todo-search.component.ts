@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TodosStore } from '../stores';
 
 @Component({
@@ -48,12 +48,10 @@ import { TodosStore } from '../stores';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoSearchComponent implements OnInit {
+export class TodoSearchComponent {
     showError = false;
 
     constructor(private todosStore: TodosStore) {}
-
-    ngOnInit() {}
 
     change({ value }) {
         this.showError = false;

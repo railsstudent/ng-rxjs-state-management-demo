@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosService } from '../services';
@@ -9,7 +9,7 @@ import { Store } from './store';
     providedIn: 'root',
 })
 export class TodosStore extends Store<Todo[]> {
-    private searchSub$ = new Subject<number | undefined>();
+    private searchSub$ = new BehaviorSubject<number | undefined>(undefined);
     search$ = this.searchSub$.asObservable();
 
     constructor(private todosService: TodosService) {
@@ -30,12 +30,12 @@ export class TodosStore extends Store<Todo[]> {
 
     get$(id: number): Observable<Todo[]> {
         if (id) {
-            return this.getAll$().pipe(
-                map(todos => todos.filter(todo => todo.id === id)),
+            return this.todosService.getAll$().pipe(
+                map(todos => todos.filter(t => t.id === id)),
                 tap(todos => this.store(todos)),
             );
         }
-        return this.getAll$().pipe(tap(todos => this.store(todos)));
+        return this.todosService.getAll$().pipe(tap(todos => this.store(todos)));
     }
 
     setSearch$(id: number | undefined) {
