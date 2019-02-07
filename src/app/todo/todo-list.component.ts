@@ -6,7 +6,7 @@ import { TodosStore } from '../stores';
 @Component({
     selector: 'todo-list',
     template: `
-        <p>Todos</p>
+        <p class="title">Todos</p>
         <div class="container" *ngFor="let todo of (todos$ | async)">
             <ul>
                 <li>ID: {{ todo.id }}</li>
@@ -20,6 +20,11 @@ import { TodosStore } from '../stores';
         `
             :host {
                 display: block;
+            }
+
+            .title {
+                text-decoration: underline;
+                font-size: 1em;
             }
 
             .container {
@@ -49,5 +54,7 @@ export class TodoListComponent implements OnInit {
 
     ngOnInit() {
         this.todos$ = this.todosStore.getAll$();
+
+        // this.todosStore.search$.subscribe();
     }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostListComponent } from './post/post-list.component';
-import { TodoListComponent } from './todo/todo-list.component';
+import { TodoShellComponent } from './todo/todo-shell.component';
 
 const routes: Routes = [
     {
@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'todos',
-        component: TodoListComponent,
+        component: TodoShellComponent,
     },
 ];
 
