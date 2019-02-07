@@ -6,17 +6,35 @@ import { TodosStore } from '../stores';
 @Component({
     selector: 'todo-list',
     template: `
-        <ul *ngFor="let todo of (todos$ | async)">
-            <li>ID: {{ todo.id }}</li>
-            <li>USER ID: {{ todo.userId }}</li>
-            <li>TITLE: {{ todo.title }}</li>
-            <li>COMPLETED: {{ todo.completed }}</li>
-        </ul>
+        <p>Todos</p>
+        <div class="container" *ngFor="let todo of (todos$ | async)">
+            <ul>
+                <li>ID: {{ todo.id }}</li>
+                <li>USER ID: {{ todo.userId }}</li>
+                <li>TITLE: {{ todo.title }}</li>
+                <li>COMPLETED: {{ todo.completed }}</li>
+            </ul>
+        </div>
     `,
     styles: [
         `
             :host {
                 display: block;
+            }
+
+            .container {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border: 2px solid #9a9a9a;
+                border-radius: 5px;
+            }
+
+            .container > ul {
+                padding-left: 1.5rem;
+            }
+
+            .container > ul > li {
+                margin-bottom: 5px;
             }
         `,
     ],
