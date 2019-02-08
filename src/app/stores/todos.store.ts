@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, empty, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosService } from '../services';
 import { Store } from './store';
@@ -24,7 +24,14 @@ export class TodosStore extends Store<Todo[]> {
 
         this.todosService
             .getAll$()
-            .pipe(tap(todos => this.store(todos)))
+            .pipe(
+                tap(todos => this.store(todos)),
+                catchError(err => {
+                    console.log(err);
+                    this.store([]);
+                    return empty();
+                }),
+            )
             .subscribe();
     }
 
@@ -37,5 +44,19 @@ export class TodosStore extends Store<Todo[]> {
 
     setSearch$(id: number | undefined) {
         this.searchSub$.next(id);
+    }
+
+    delete$(id: number) {
+        if (id) {
+            return this.todosService.delete$(id).pipe(
+                map(() => this.getAll().filter(t => t.id !== id)),
+                tap(todos => this.store(todos)),
+                catchError(err => {
+                    console.log(err);
+                    return empty();
+                }),
+            );
+        }
+        return empty();
     }
 }
