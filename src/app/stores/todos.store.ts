@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, empty, Observable } from 'rxjs';
+import { BehaviorSubject, empty, EMPTY, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosService } from '../services';
@@ -53,7 +53,7 @@ export class TodosStore extends Store<Todo[]> {
                 tap(todos => this.store(todos)),
                 catchError(err => {
                     console.log(err);
-                    return empty();
+                    return EMPTY;
                 }),
             );
         }

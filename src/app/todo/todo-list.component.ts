@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { empty, merge, Observable, Subject } from 'rxjs';
+import { EMPTY, merge, Observable, Subject } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosStore } from '../stores';
@@ -71,7 +71,7 @@ export class TodoListComponent implements OnInit {
 
     private handleError(err: Error) {
         console.log(err);
-        return empty();
+        return EMPTY;
     }
 
     constructor(private todosStore: TodosStore) {
