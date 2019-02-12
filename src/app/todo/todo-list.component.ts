@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { empty, merge, Observable, Subject } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { Todo } from '../models';
 import { TodosStore } from '../stores';
 
@@ -84,7 +84,7 @@ export class TodoListComponent implements OnInit {
         );
 
         const deleteTodo$ = this.deleteClick$.pipe(
-            mergeMap(todoId => this.todosStore.delete$(todoId).pipe(catchError(err => this.handleError(err)))),
+            exhaustMap(todoId => this.todosStore.delete$(todoId).pipe(catchError(err => this.handleError(err)))),
         );
 
         this.todos$ = merge(searchTodo$, deleteTodo$);
